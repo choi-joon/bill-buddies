@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bill Buddies</title>
+<style>
+    /* Basic reset */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Arial', sans-serif;
+        line-height: 1.6;
+        background-color: #E4EBD3; /* light green background */
+    }
+
+    .header {
+        background: #3C6649; /* dark green */
+        padding: 20px;
+        color: white;
+        
+    }
+    
+    .nav-bar img {
+        max-width: 200px; /* Adjust as needed */
+        height: auto; /* Maintain the aspect ratio */
+        margin-right: auto; /* This will push other items to the right, keeping the logo to the left */
+    }
+    .nav-bar {
+        background: #3C6649 ; /* nav bar green */
+        padding: 10px 20px;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        text-align: center;
+        display: flex; /* Use flexbox to align items */
+        align-items: center; /* Align items vertically in the center */
+        justify-content: flex-start; /* Align the content to the start (left) */
+    }
+
+    .nav-bar a {
+        color: #A8D7B7; /* light green */
+        text-decoration: none;
+        padding: 5px 10px;
+    }
+
+    .nav-bar a:hover {
+        background: #3C6649; /* dark green */
+        color: white;
+    }
+
+    .search-container {
+        padding: 50px;
+        text-align: center;
+    }
+
+    .search-container h1 {
+        margin-bottom: 20px;
+        color: #3C6649; /* dark green */
+    }
+
+    .search-box {
+        padding: 10px 20px;
+        font-size: 16px;
+        border: 2px solid #3C6649; /* dark green */
+        border-radius: 5px;
+        width: 300px; /* Adjust as needed */
+        margin-right: 5px; /* Adjust according to the search button's width to overlap */
+    }
+
+    .search-button {
+        padding: 10px 20px;
+        background: #3C6649; /* dark green */
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        color: white;
+    }
+
+    /* Helper class to visually hide the search button but make it accessible */
+    .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+    }
+</style>
+</head>
+<body>
+
+
+<nav class="nav-bar">
+    <div>
+        <img src="../static/images/logo.png" alt="Bill Buddies Logo">
+    </div>
+    <a href="index.html">HOME</a>
+    <a href="aboutus.html">ABOUT</a>
+    <a href="signup.html">SIGN UP</a>
+    <a href="login.html">LOG IN</a>
+</nav>
+
+<!-- plan for search feature:
+    1) user enters in zipcode (store value)
+    2) once user clicks on the search button, lead them to the explore/map page 
+    3) API call is made to make sure the zipcode is valid
+    4) If it is valid, display it on the map, otherwise print an error and have them try again
+-->
+
+<div class="search-container">
+    <h1>Want to find your local utility information?</h1>
+    <form action="explore.html" method="get" >
+        <input type="text" class="search-box" placeholder="Enter your zipcode" required/>
+        <button type="submit" class="search-button">
+            <span class="visually-hidden">Search</span>
+            🔍
+        </button>
+    </form>
+</div>
+
+</body>
+</html>

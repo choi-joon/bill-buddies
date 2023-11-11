@@ -1,0 +1,17 @@
+#!/bin/bash
+# bill_buddies_run
+
+# Stop on errors
+# See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
+set -Eeuo pipefail
+set -x
+
+# if [ ! -e "var/bill_buddies.sqlite3" ]; then
+#     echo "Error: can't find database var/bill_buddies.sqlite3"
+#     echo "Try: ./bin/bill_buddiesdb create"
+#     exit 1
+# fi
+
+# else, run
+npx webpack --watch &
+flask --app bill_buddies --debug run --host 0.0.0.0 --port 8000

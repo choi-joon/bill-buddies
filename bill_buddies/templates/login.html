@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bill Buddies - Log In</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-bar img {
+    max-width: 200px; /* Adjust as needed */
+    height: auto; /* Maintain the aspect ratio */
+    margin-right: auto; /* This will push other items to the right, keeping the logo to the left */
+}
+.nav-bar {
+    background: #3C6649 ; /* nav bar green */
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
+    display: flex; /* Use flexbox to align items */
+    align-items: center; /* Align items vertically in the center */
+    justify-content: flex-start; /* Align the content to the start (left) */
+}
+
+.nav-bar a {
+    color: #A8D7B7; /* light green */
+    text-decoration: none;
+    padding: 5px 10px;
+}
+
+.nav-bar a:hover {
+    background: #3C6649; /* dark green */
+    color: white;
+}
+
+
+  .container {
+    width: 300px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .form-input {
+    margin-bottom: 10px;
+  }
+  .form-input input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+  }
+  .form-input label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  .btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+  }
+  .btn:hover {
+    background-color: #45a049;
+  }
+  .footer {
+    text-align: center;
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+
+  <nav class="nav-bar">
+    <div>
+        <img src="../static/images/logo.png" alt="Bill Buddies Logo">
+    </div>
+    <a href="index.html">HOME</a>
+    <a href="aboutus.html">ABOUT</a>
+    <a href="signup.html">SIGN UP</a>
+    <a href="login.html">LOG IN</a>
+</nav>
+
+<div class="container">
+  <h2 style="text-align:center">BILL BUDDIES</h2>
+  <form action="#home" method="post">
+    <div class="form-input">
+      <input type="text" name="username" placeholder="USERNAME" required>
+    </div>
+    <div class="form-input">
+      <input type="password" name="password" placeholder="PASSWORD" required>
+    </div>
+    <div>
+      <button type="submit" class="btn">LOG IN</button>
+    </div>
+  </form>
+  <div class="footer">
+    <p>Forgot your password? <a href="#reset">Click here to reset</a></p>
+  </div>
+</div>
+
+</body>
+</html>
