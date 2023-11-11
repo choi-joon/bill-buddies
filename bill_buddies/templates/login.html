@@ -83,29 +83,30 @@
 
   <nav class="nav-bar">
     <div>
-        <img src="../static/images/logo.png" alt="Bill Buddies Logo">
+        <img src="../static/logo.png" alt="Bill Buddies Logo">
     </div>
-    <a href="index.html">HOME</a>
-    <a href="aboutus.html">ABOUT</a>
-    <a href="signup.html">SIGN UP</a>
-    <a href="login.html">LOG IN</a>
+    <a href="{{ url_for('show_index') }}">HOME</a>
+    <a href="{{ url_for('show_aboutus') }}">ABOUT</a>
+    <a href="{{ url_for('show_signup') }}">SIGN UP</a>
 </nav>
 
 <div class="container">
   <h2 style="text-align:center">BILL BUDDIES</h2>
-  <form action="#home" method="post">
-    <div class="form-input">
-      <input type="text" name="username" placeholder="USERNAME" required>
-    </div>
-    <div class="form-input">
-      <input type="password" name="password" placeholder="PASSWORD" required>
-    </div>
-    <div>
-      <button type="submit" class="btn">LOG IN</button>
-    </div>
+  <form action="/accounts/?target={{url_for('show_index')}}"
+            method="post"
+            enctype="multipart/form-data">
+      <div class="form-input">
+        <input type="text" name="username" placeholder="USERNAME" required>
+      </div>
+      <div class="form-input">
+        <input type="password" name="password" placeholder="PASSWORD" required>
+      </div>
+      <div>
+        <button type="submit" class="btn">LOG IN</button>
+      </div>
   </form>
   <div class="footer">
-    <p>Forgot your password? <a href="#reset">Click here to reset</a></p>
+    <p>Don't have an account? <br><a href="{{ url_for('show_signup') }}">Click here to sign up</a></p>
   </div>
 </div>
 

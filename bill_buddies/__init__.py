@@ -19,6 +19,5 @@ app.config.from_object('bill_buddies.config')
 # circular import, which is naughty, but Flask was designed that way.
 # (Reference http://flask.pocoo.org/docs/patterns/packages/)  We're
 # going to tell pylint and pycodestyle to ignore this coding style violation.
-import bill_buddies.api  # noqa: E402  pylint: disable=wrong-import-position
 import bill_buddies.views  # noqa: E402  pylint: disable=wrong-import-position
 import bill_buddies.model  # noqa: E402  pylint: disable=wrong-import-position

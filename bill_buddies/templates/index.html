@@ -99,12 +99,11 @@
 
 <nav class="nav-bar">
     <div>
-        <img src="../static/images/logo.png" alt="Bill Buddies Logo">
+        <img src="../static/logo.png" alt="Bill Buddies Logo">
     </div>
-    <a href="index.html">HOME</a>
-    <a href="aboutus.html">ABOUT</a>
-    <a href="signup.html">SIGN UP</a>
-    <a href="login.html">LOG IN</a>
+    <a href="{{ url_for('show_index') }}">HOME</a>
+    <a href="{{ url_for('show_aboutus') }}">ABOUT</a>
+    <a href="{{ url_for('show_signup') }}">SIGN UP</a>
 </nav>
 
 <!-- plan for search feature:
