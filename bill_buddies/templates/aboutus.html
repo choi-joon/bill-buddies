@@ -18,23 +18,49 @@
         background-color: #E4EBD3; /* light green background */
     }
 
-    .nav-bar {
+    .header {
         background: #3C6649; /* dark green */
-        padding: 10px 20px;
+        padding: 20px;
+        color: white;
+        
+    }
+    .nav-bar {
+        background: #3C6649 ; /* nav bar green */
+        width: 100vw;
+        height: 12.5vh;
         display: flex;
-        justify-content: center;
         gap: 10px;
+        text-align: center;
+        display: flex; /* Use flexbox to align items */
+        align-items: center; /* Align items vertically in the center */
+        justify-content: flex-start; /* Align the content to the start (left) */
+    }
+
+    .nav-bar img {
+        padding-top: 5%;
+        padding-bottom: 5%;
+        padding-left: 5%;
+        padding-right: 5%;
+        max-height: 10vh;
+        max-width: 28vw;
+        object-fit: contain;
+        margin-right: auto; /* This will push other items to the right, keeping the logo to the left */
     }
 
     .nav-bar a {
-        color: #A8D7B7; /* light green */
+        font-size: 1.5vh;
+        border: 2px solid black;
+        background-color: #FEF5ED;
+        border-radius: 5px;
+        color: black; /* light green */
         text-decoration: none;
+        object-fit: contain;
         padding: 5px 10px;
     }
 
     .nav-bar a:hover {
-        background: #3C6649; /* dark green */
-        color: white;
+        background: #3C6649;
+        color: #A8D7B7;
     }
 
     .logo-container {
@@ -43,7 +69,8 @@
     }
 
     .logo-container img {
-        max-width: 500px; /* Adjust as needed */
+        border: 2px solid black;
+        max-width: 50vw; /* Adjust as needed */
         height: auto; /* Maintain the aspect ratio */
         display: block; /* Ensures the image is block level to center */
         margin: 0 auto; /* Centers the logo */
@@ -53,22 +80,25 @@
         background-color: #fff;
         margin: 20px auto;
         padding: 20px;
-        width: 80%; /* Adjust as needed */
+        max-width: 80vw; /* Adjust as needed */
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 </style>
 </head>
 <body>
 
-<nav class="nav-bar">
-    <a href="{{ url_for('show_index') }}">HOME</a>
-    <a href="{{ url_for('show_aboutus') }}">ABOUT</a>
-    <a href="{{ url_for('show_signup') }}">SIGN UP</a>
-    <a href="{{ url_for('show_mypage') }}">MY PAGE</a>
-</nav>
+    <nav class="nav-bar">
+        <div>
+            <img src="../static/images/logo.png" alt="Bill Buddies Logo">
+        </div>
+        <a href="home.html">HOME</a>
+        <a href="aboutus.html">ABOUT</a>
+        <a href="signup.html">SIGN UP</a>
+        <a href="login.html">LOG IN</a>
+    </nav>
 
 <div class="logo-container">
-    <img src="../static/logo.png" alt="Bill Buddies Logo">
+    <img src="../static/images/GGBL.jpg" alt="Bill Buddies Logo">
 </div>
 
 <div class="content-box">
