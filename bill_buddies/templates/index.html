@@ -24,11 +24,17 @@
         color: white;
         
     }
+    
+    .nav-bar img {
+        max-width: 200px; /* Adjust as needed */
+        height: auto; /* Maintain the aspect ratio */
+        margin-right: auto; /* This will push other items to the right, keeping the logo to the left */
+    }
     .nav-bar {
         background: #3C6649 ; /* nav bar green */
-        width: 100vw;
-        height: 12.5vh;
+        padding: 10px 20px;
         display: flex;
+        justify-content: center;
         gap: 10px;
         text-align: center;
         display: flex; /* Use flexbox to align items */
@@ -36,45 +42,24 @@
         justify-content: flex-start; /* Align the content to the start (left) */
     }
 
-    .nav-bar img {
-        padding-top: 5%;
-        padding-bottom: 5%;
-        padding-left: 5%;
-        padding-right: 5%;
-        max-height: 10vh;
-        max-width: 28vw;
-        object-fit: contain;
-        margin-right: auto; /* This will push other items to the right, keeping the logo to the left */
-    }
-
     .nav-bar a {
-        font-size: 1.5vh;
-        border: 2px solid black; ; /* dark green */
-        background-color: #FEF5ED;
-        border-radius: 5px;
-        color: black; /* light green */
+        color: #A8D7B7; /* light green */
         text-decoration: none;
-        object-fit: contain;
         padding: 5px 10px;
     }
 
     .nav-bar a:hover {
         background: #3C6649; /* dark green */
-        color: #A8D7B7;
+        color: white;
     }
 
     .search-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 75vh;
         padding: 50px;
         text-align: center;
     }
 
     .search-container h1 {
-        margin-bottom: 30px;
+        margin-bottom: 20px;
         color: #3C6649; /* dark green */
     }
 
@@ -83,20 +68,17 @@
         font-size: 16px;
         border: 2px solid #3C6649; /* dark green */
         border-radius: 5px;
-        width: 30vw; /* Adjust as needed */
-        height: 5vh;
+        width: 300px; /* Adjust as needed */
         margin-right: 5px; /* Adjust according to the search button's width to overlap */
     }
 
     .search-button {
         padding: 10px 20px;
-        background: #A8D7B7; /* light green */
-        border: 2px solid #3C6649; /* dark green */
+        background: #3C6649; /* dark green */
+        border: none;
         border-radius: 5px;
         cursor: pointer;
         color: white;
-        height: auto;
-        width: auto;
     }
 
     /* Helper class to visually hide the search button but make it accessible */
@@ -119,10 +101,9 @@
     <div>
         <img src="../static/logo.png" alt="Bill Buddies Logo">
     </div>
-    <a href="index.html">HOME</a>
-    <a href="aboutus.html">ABOUT</a>
-    <a href="signup.html">SIGN UP</a>
-    <a href="login.html">LOG IN</a>
+    <a href="{{ url_for('show_index') }}">HOME</a>
+    <a href="{{ url_for('show_aboutus') }}">ABOUT</a>
+    <a href="{{ url_for('show_mypage') }}">MY PAGE</a>
 </nav>
 
 <!-- plan for search feature:
@@ -134,8 +115,10 @@
 
 <div class="search-container">
     <h1>Want to find your local utility information?</h1>
-    <form action="explore.html" method="get" >
-        <input type="text" class="search-box" placeholder="Enter your zipcode" required/>
+    <form action="?target={{url_for('show_explore')}}"
+            method="post"
+            enctype="multipart/form-data">
+        <input type="text" name="zipcode" class="search-box" placeholder="Enter your zipcode" required/>
         <button type="submit" class="search-button">
             <span class="visually-hidden">Search</span>
             🔍

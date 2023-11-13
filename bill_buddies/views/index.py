@@ -124,7 +124,11 @@ def show_aboutus():
 def show_explore():
     if 'logname' not in flask.session:
         return flask.redirect(flask.url_for('show_signup'))
-    return flask.render_template("explore.html")
+    # connection = bill_buddies.model.get_db()
+    context = {
+        #"zipcode": zipcode
+    }
+    return flask.render_template("explore.html", **context)
 
 
 @bill_buddies.app.route('/login/')
@@ -167,6 +171,26 @@ def show_mypage():
     return flask.render_template("mypage.html")
 
 
+@bill_buddies.app.route('/', methods=['POST'])
+def post_zip_index():
+    """Login user, helper for post account."""
+    target_url = flask.request.args.get('target')
+    zipcode = flask.request.form.get('zipcode')
+    if not target_url:
+        return flask.redirect(flask.url_for('show_index'))
+    return flask.redirect(target_url)
+
+
+@bill_buddies.app.route('/explore/', methods=['POST'])
+def post_zip_explore():
+    """Login user, helper for post account."""
+    target_url = flask.request.args.get('target')
+    zipcode = flask.request.form.get('zipcode')
+    if not target_url:
+        return flask.redirect(flask.url_for('show_index'))
+    return flask.redirect(target_url)
+
+
 @bill_buddies.app.route('/logout/', methods=['POST'])
 def post_logout():
     """Logout users."""
@@ -175,12 +199,14 @@ def post_logout():
 
 
 @bill_buddies.app.route('/login/', methods=['POST'])
-def post_login(connection, *args):
+def post_login():
     """Login user, helper for post account."""
-    (username, password) = args
+    connection = bill_buddies.model.get_db()
+    username = flask.request.form.get('username')
+    password = flask.request.form.get('password')
     # fetch users from db
     users = connection.execute(
-        "SELECT username, password, filename FROM users"
+        "SELECT username, password FROM users"
     )
     users = users.fetchall()
 
