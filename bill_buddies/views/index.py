@@ -7,8 +7,9 @@ import flask
 import requests
 import bill_buddies
 
-OPENEI_API_KEY = '7ed6qXM9jqmFRuhtZzMVl5evclf4fCWVS1rwCt7Q'
-UTILITY_RATES_ENDPOINT = 'https://api.openei.org/utility_rates?version=latest&api_key={}&format=json&lat={}&lon={}'
+NREL_API_KEY = 'ChvLonWumEHOLKF7Q5gCwyoVq6giJ20ipk3RdeZm'
+UTILITY_RATES_ENDPOINT = 'https://developer.nrel.gov/api/utility_rates/v3.json'
+RADIUS = 50
 
 # Helper for routing images
 @bill_buddies.app.route('/uploads/<path:filename>')
@@ -55,23 +56,28 @@ def get_lat_lon_from_zipcode(zipcode):
 
 @bill_buddies.app.route('/sorted-utility-rates/<zipcode>')
 def get_sorted_utility_rates(zipcode):
-    # Convert ZIP code to latitude and longitude
     lat, lon = get_lat_lon_from_zipcode(zipcode)
     if lat is None or lon is None:
-        return flask.jsonify({'error': 'Invalid ZIP code or geocoding failed'}), 400
-    print(lat, lon)
-    # Construct the API request URL using latitude and longitude
-    url = UTILITY_RATES_ENDPOINT.format(OPENEI_API_KEY, lat, lon)
-    
-    # Make the request to OpenEI API
-    response = requests.get(url)
+        return flask.jsonify({'error': 'Invalid ZIP code'}), 400
+    params = {
+        'api_key' : NREL_API_KEY,
+        'lat': lat,
+        'lon': lon,
+        'radius': RADIUS,
+    }
+    response = requests.get(UTILITY_RATES_ENDPOINT, params=params)
     if response.status_code == 200:
-        rates = response.json()
-        
-        # Process and sort rates as needed
-        # ...
-        
-        return flask.jsonify(rates)
+        data = response.json()
+        outputs = data['outputs']
+        utility_info_list = [
+            {
+                'utility_name': name,
+                'max_rate': max(outputs.get(rate_type, 0) for rate_type in ['commercial', 'industrial', 'residential'])
+            }
+            for name in outputs['utility_name'].split('|')
+        ]
+        sorted_utility_rates = sorted(utility_info_list, key=lambda x: x['max_rate'])
+        return flask.jsonify({'sorted_utility_rates': sorted_utility_rates})
     else:
         return flask.jsonify({'error': 'Failed to fetch data'}), response.status_code
 
