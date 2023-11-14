@@ -7,10 +7,13 @@ CREATE TABLE users(
   created DATETIME DEFAULT (DATETIME(CURRENT_TIMESTAMP, 'LOCALTIME'))
 );
 
-CREATE TABLE utility_rates(
-  username VARCHAR(20) PRIMARY KEY NOT NULL,
-  electricity_rates VARCHAR(40) NOT NULL,
-  water_rates VARCHAR(40) NOT NULL,
-  gas_rates VARCHAR(40) NOT NULL,
-  garbage_rates VARCHAR(40) NOT NULL
+CREATE TABLE usage(
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(20) NOT NULL,
+  month DATE NOT NULL,
+  electricity_bill DECIMAL(10, 2) NOT NULL,
+  water_bill DECIMAL(10, 2) NOT NULL,
+  gas_bill DECIMAL(10, 2) NOT NULL,
+  garbage_bill DECIMAL(10, 2) NOT NULL,
+  FOREIGN KEY (username) REFERENCES users(username)
 );

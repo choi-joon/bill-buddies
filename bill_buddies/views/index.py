@@ -5,6 +5,7 @@ import os
 import uuid
 import flask
 import requests
+import datetime
 import bill_buddies
 
 NREL_API_KEY = 'ChvLonWumEHOLKF7Q5gCwyoVq6giJ20ipk3RdeZm'
@@ -72,11 +73,11 @@ def get_sorted_utility_rates(zipcode):
         utility_info_list = [
             {
                 'utility_name': name,
-                'max_rate': max(outputs.get(rate_type, 0) for rate_type in ['commercial', 'industrial', 'residential'])
+                'rate': max(outputs.get(rate_type, 0) for rate_type in ['commercial', 'industrial', 'residential'])
             }
             for name in outputs['utility_name'].split('|')
         ]
-        sorted_utility_rates = sorted(utility_info_list, key=lambda x: x['max_rate'])
+        sorted_utility_rates = sorted(utility_info_list, key=lambda x: x['rate'])
         return flask.jsonify({'sorted_utility_rates': sorted_utility_rates})
     else:
         return flask.jsonify({'error': 'Failed to fetch data'}), response.status_code
@@ -105,16 +106,9 @@ def show_index():
     )
     users = users.fetchall()
 
-    # Query utility rates
-    rates = connection.execute(
-        "SELECT * FROM utility_rates"
-    )
-    rates = rates.fetchall()
-
     # Add database info to context
     context = {
         "logname": logname,
-        "rates": rates,
     }
     return flask.render_template("index.html", **context)
 
@@ -163,16 +157,33 @@ def show_mypage():
         return flask.redirect(flask.url_for('show_login'))
     logname = flask.session['logname']
 
-    # Query utility rates
-    rate = connection.execute(
-        "SELECT * FROM utility_rates WHERE username = ?", (logname,)
+    current_month = datetime.datetime.now().strftime('%Y-%m')
+    monthly_bill = connection.execute(
+        "SELECT SUM(electricity_bill + water_bill + gas_bill + garbage_bill) \
+        FROM usage WHERE strftime('%Y-%m', month) = ?  AND username = ?",
+        (current_month, logname)
     )
-    rate = rate.fetchall()
+    monthly_bill = monthly_bill.fetchall()
+
+    average_utility_bill = connection.execute(
+        """
+        SELECT AVG(total)
+        FROM (
+            SELECT strftime('%Y-%m', month) AS year_month, SUM(electricity_bill + water_bill + gas_bill + garbage_bill) AS total
+            FROM usage
+            WHERE username = ?
+            GROUP BY year_month
+        ) AS monthly_totals      
+        """, (logname,)
+    )
+
+    average_utility_bill = average_utility_bill.fetchall()
 
     # Add database info to context
     context = {
         "logname": logname,
-        "rates": rate,
+        "monthly_bill": monthly_bill,
+        "average_utility_bill": average_utility_bill,
     }
     return flask.render_template("mypage.html")
 
@@ -290,6 +301,7 @@ def post_signup():
         return flask.redirect(flask.url_for('show_index'))
     return flask.redirect(target_url)
 
+
 # @bill_buddies.app.route('/edit/', methods=['POST'])
 # def post_account_edit_account(connection, *args):
 #     """Edit user account, helper for post account."""
@@ -330,3 +342,30 @@ def post_signup():
 #         return flask.redirect(flask.url_for('show_index'))
 #     return flask.redirect(target_url)
 
+@bill_buddies.app.route('/add-usage/', methods=['POST'])
+def add_monthly_usage():
+    try:
+        connection = bill_buddies.model.get_db()
+        if 'logname' not in flask.session:
+            return flask.redirect(flask.url_for('show_login'))
+        logname = flask.session['logname']
+
+        month = flask.request.form.get('month')
+        electricity_usage = flask.request.form.get('electricity_bill')
+        water_usage = flask.request.form.get('water_bill')
+        gas_usage = flask.request.form.get('gas_bill')
+        garbage_usage = flask.request.form.get('garbage_bill')
+
+        cursor = connection.cursor()
+        cursor.execute(
+            """
+            INSERT INTO usage (username, month, electricity_bill, water_bill, gas_bill, garbage_bill)
+            VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            (logname, month, electricity_usage, water_usage, gas_usage, garbage_usage)
+        )
+        connection.commit()
+        cursor.close()
+        return flask.jsonify({'msg': 'success'})
+    except Exception as e:
+        return flask.jsonify({'error': str(e)}), 400
