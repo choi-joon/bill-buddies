@@ -5,39 +5,62 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bill Buddies - Sign Up</title>
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #f4f4f4;
-    margin: 0;
-    padding: 0;
+  /* Basic reset */
+  * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
   }
+
+  body {
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+      background-color: #E4EBD3; /* light green background */
+  }
+
+  .header {
+      background: #3C6649; /* dark green */
+      padding: 20px;
+      color: white;
+      
+  }
+  
+  .nav-bar {
+      background: #3C6649 ; /* nav bar green */
+      width: 100vw;
+      height: 12.5vh;
+      display: flex;
+      gap: 10px;
+      text-align: center;
+      display: flex; /* Use flexbox to align items */
+      align-items: center; /* Align items vertically in the center */
+      justify-content: flex-start; /* Align the content to the start (left) */
+  }
+
   .nav-bar img {
-    max-width: 200px; /* Adjust as needed */
-    height: auto; /* Maintain the aspect ratio */
-    margin-right: auto; /* This will push other items to the right, keeping the logo to the left */
-}
-.nav-bar {
-    background: #3C6649 ; /* nav bar green */
-    padding: 10px 20px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    text-align: center;
-    display: flex; /* Use flexbox to align items */
-    align-items: center; /* Align items vertically in the center */
-    justify-content: flex-start; /* Align the content to the start (left) */
-}
+      padding-top: 5%;
+      padding-bottom: 5%;
+      padding-left: 5%;
+      padding-right: 5%;
+      max-height: 10vh;
+      max-width: 28vw;
+      object-fit: contain;
+      margin-right: auto; /* This will push other items to the right, keeping the logo to the left */
+  }
 
-.nav-bar a {
-    color: #A8D7B7; /* light green */
-    text-decoration: none;
-    padding: 5px 10px;
-}
+  .nav-bar a {
+      color: #A8D7B7; /* light green */
+      text-decoration: none;
+      padding: 5px 10px;
+      font-size: 1.5vh;
+      text-decoration: none;
+      object-fit: contain;
+  }
 
-.nav-bar a:hover {
-    background: #3C6649; /* dark green */
-    color: white;
-}
+  .nav-bar a:hover {
+      background: #3C6649; /* dark green */
+      color: white;
+  }
 
   .container {
     width: 300px;
@@ -82,8 +105,8 @@
 
   <nav class="nav-bar">
     <div>
-        <img src="../static/logo.png" alt="Bill Buddies Logo">
-    </div>
+      <a href="{{ url_for('show_index') }}"><img src="../static/logo.png" alt="Bill Buddies Logo"></a>
+  </div>
     <a href="{{ url_for('show_index') }}">HOME</a>
     <a href="{{ url_for('show_aboutus') }}">ABOUT</a>
     <a href="{{ url_for('show_signup') }}">SIGN UP</a>

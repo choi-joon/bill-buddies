@@ -25,16 +25,11 @@
         
     }
     
-    .nav-bar img {
-        max-width: 200px; /* Adjust as needed */
-        height: auto; /* Maintain the aspect ratio */
-        margin-right: auto; /* This will push other items to the right, keeping the logo to the left */
-    }
     .nav-bar {
         background: #3C6649 ; /* nav bar green */
-        padding: 10px 20px;
+        width: 100vw;
+        height: 12.5vh;
         display: flex;
-        justify-content: center;
         gap: 10px;
         text-align: center;
         display: flex; /* Use flexbox to align items */
@@ -42,10 +37,24 @@
         justify-content: flex-start; /* Align the content to the start (left) */
     }
 
+    .nav-bar img {
+        padding-top: 5%;
+        padding-bottom: 5%;
+        padding-left: 5%;
+        padding-right: 5%;
+        max-height: 10vh;
+        max-width: 28vw;
+        object-fit: contain;
+        margin-right: auto; /* This will push other items to the right, keeping the logo to the left */
+    }
+
     .nav-bar a {
         color: #A8D7B7; /* light green */
         text-decoration: none;
         padding: 5px 10px;
+        font-size: 1.5vh;
+        text-decoration: none;
+        object-fit: contain;
     }
 
     .nav-bar a:hover {
@@ -99,10 +108,11 @@
 
 <nav class="nav-bar">
     <div>
-        <img src="../static/logo.png" alt="Bill Buddies Logo">
+        <a href="{{ url_for('show_index') }}"><img src="../static/logo.png" alt="Bill Buddies Logo"></a>
     </div>
     <a href="{{ url_for('show_index') }}">HOME</a>
     <a href="{{ url_for('show_aboutus') }}">ABOUT</a>
+    <a href="{{ url_for('show_mypage') }}">MY PAGE</a>
     <a href="{{ url_for('post_logout') }}">LOG OUT</a>
 </nav>
 
@@ -120,7 +130,7 @@
     <form action="?target={{url_for('show_explore')}}"
             method="post"
             enctype="multipart/form-data">
-        <input type="text" name="zipcode" class="search-box" placeholder="Enter your zipcode" required/>
+        <input type="text" name="zipcode" class = "search-box" name="zipcode" pattern="\d{5}" placeholder="Enter your zipcode" title="Please enter a 5-digit zip code" required>
         <button type="submit" class="search-button">
             <span class="visually-hidden">Search</span>
             🔍
@@ -130,7 +140,14 @@
 
 <div id="map-container" >
     <!-- The Google Map will be inserted here by the Google Maps JavaScript API -->
-    MAP MAP MPA MPA here
+    test
+    {% for val in util_list %}
+        <div>
+            <p>{{val.company}}</p>
+            <p>{{val.price}}</p>
+            <p>{{val.description}}</p>
+        </div>
+    {% endfor %} 
 </div>
 
 </body>

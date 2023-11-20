@@ -5,29 +5,69 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Usage - Bill Buddies</title>
 <style>
+  /* Basic reset */
+  * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+  }
+
   body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #f9f9f9;
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+      background-color: #E4EBD3; /* light green background */
   }
-  .navbar {
-    background-color: #ccc;
-    overflow: hidden;
+
+  .header {
+      background: #3C6649; /* dark green */
+      padding: 20px;
+      color: white;
+      
   }
-  .navbar a {
-    float: left;
-    display: block;
-    color: black;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
+  
+  .nav-bar {
+      background: #3C6649 ; /* nav bar green */
+      width: 100vw;
+      height: 12.5vh;
+      display: flex;
+      gap: 10px;
+      text-align: center;
+      display: flex; /* Use flexbox to align items */
+      align-items: center; /* Align items vertically in the center */
+      justify-content: flex-start; /* Align the content to the start (left) */
   }
+
+  .nav-bar img {
+      padding-top: 5%;
+      padding-bottom: 5%;
+      padding-left: 5%;
+      padding-right: 5%;
+      max-height: 10vh;
+      max-width: 28vw;
+      object-fit: contain;
+      margin-right: auto; /* This will push other items to the right, keeping the logo to the left */
+  }
+
+  .nav-bar a {
+      color: #A8D7B7; /* light green */
+      text-decoration: none;
+      padding: 5px 10px;
+      font-size: 1.5vh;
+      text-decoration: none;
+      object-fit: contain;
+  }
+
+  .nav-bar a:hover {
+      background: #3C6649; /* dark green */
+      color: white;
+  }
+    
   .main-content {
     padding: 20px;
     background: white;
   }
   .card {
+    justify-content: center;
     background: #fff;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     margin-bottom: 20px;
@@ -57,28 +97,110 @@
 </head>
 <body>
 
-<div class="navbar">
-  <a href="{{ url_for('show_index') }}">HOME</a>
-  <a href="{{ url_for('show_aboutus') }}">ABOUT</a>
-  <a href="{{ url_for('show_mypage') }}">MY PAGE</a>
-  <a href="{{ url_for('post_logout') }}">LOG OUT</a>
-</div>
+  <nav class="nav-bar">
+    <div>
+        <a href="{{ url_for('show_index') }}"><img src="../static/logo.png" alt="Bill Buddies Logo"></a>
+    </div>
+    <a href="{{ url_for('show_index') }}">HOME</a>
+    <a href="{{ url_for('show_aboutus') }}">ABOUT</a>
+    <a href="{{ url_for('show_mypage') }}">MY PAGE</a>
+    <a href="{{ url_for('post_logout') }}">LOG OUT</a>
+</nav>
 
 <div class="main-content">
   <div class="card">
     <div>This Month's Utility Bill</div>
-    <div class="utility-bill">$195</div>
+    <div class="utility-bill">${{ price }} </div>
     <div>Utility Bill Overview</div>
-    <!-- Placeholder for the pie chart -->
-    <div class="chart" id="pie-chart">Pie Chart Goes Here</div>
+    <div id="myChart" ></div> 
+    <!-- style="max-width:700px; height:400px" -->
+    {% block javascript %}
+      <script src="https://www.gstatic.com/charts/loader.js"></script>
+      <script>
+        google.charts.load('current',{packages:['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+        
+        // Your Function
+        function drawChart() {
+            // Set Data
+            const data = google.visualization.arrayToDataTable(
+              [["Bill", "Price"],
+              ["Water", 30],
+              ["Electricity", 45],
+              ["Heat/Cooling", 25],
+              ["Trash", 15],
+              ["Internet", 20],
+              ["Phone", 30]]
+            );
+            
+            // Set Options
+            const options = {
+              title: "This Month's Utility Bill",
+              is3D: true
+            };
+            
+            // Draw
+            const chart = new google.visualization.PieChart(document.getElementById('myChart'));
+            chart.draw(data, options);
+            
+          }
+        </script>
+      {% endblock %}
+
   </div>
 
   <div class="card">
     <div>Average Utility Bill</div>
     <div class="utility-bill">$202.14</div>
-    <!-- Placeholder for the line chart -->
-    <div class="chart" id="line-chart">Line Chart Goes Here</div>
+    <div id="linechart_material" style="width: 900px; height: 500px"></div>
+    <script>
+        google.charts.load('current', {'packages':['line']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('number', 'Day of Month');
+            data.addColumn('number', 'Water');
+            data.addColumn('number', 'Electricity');
+            data.addColumn('number', 'Heat/Cooling');
+            data.addColumn('number', 'Trash');
+            data.addColumn('number', 'Internet');
+            data.addColumn('number', 'Phone');
+
+            data.addRows([
+                [1,  37.8, 80.8, 41.8, 56.8, 34.9, 23.7],
+                [2,  30.9, 69.5, 32.4, 37.8, 80.8, 41.8],
+                [3,  25.4,   57, 25.7, 12.3, 29.2, 10.6],
+                [4,  11.7, 18.8, 10.5, 12.3, 29.2, 10.6],
+                [5,  11.9, 17.6, 10.4, 12.3, 29.2, 10.6],
+                [6,   8.8, 13.6,  7.7, 12.3, 29.2, 10.6],
+                [7,   7.6, 12.3,  9.6, 12.8, 30.9, 11.6],
+                [8,  12.3, 29.2, 10.6, 12.8, 30.9, 11.6],
+                [9,  16.9, 42.9, 14.8, 12.8, 30.9, 11.6],
+                [10, 12.8, 30.9, 11.6, 12.8, 30.9, 11.6],
+                [11,  5.3,  7.9,  4.7, 12.8, 30.9, 11.6],
+                [12,  6.6,  8.4,  5.2, 12.8, 30.9, 11.6],
+                [13,  4.8,  6.3,  3.6, 12.8, 30.9, 11.6],
+                [14,  4.2,  6.2,  3.4, 12.8, 30.9, 11.6]
+            ]);
+
+            var options = {
+                chart: {
+                title: 'Monthly Utility Spending',
+                subtitle: 'in dollars (USD)'
+                },
+                width: 900,
+                height: 500
+            };
+
+            var chart = new google.charts.Line(document.getElementById('linechart_material'));
+
+            chart.draw(data, google.charts.Line.convertOptions(options));
+        }
+    </script>
   </div>
 
-  <div class="tips">
-    <
+  <div class="card">
+    Tips!
+  </div>
+</div>

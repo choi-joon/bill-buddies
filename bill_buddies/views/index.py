@@ -180,12 +180,23 @@ def show_mypage():
     average_utility_bill = average_utility_bill.fetchall()
 
     # Add database info to context
+    # context = {
+    #     "logname": logname,
+    #     "monthly_bill": monthly_bill,
+    #     "average_utility_bill": average_utility_bill,
+    # }
+    entries = [["Bill", "Price"],
+               ["Water", 30],
+               ["Electricy", 45],
+               ["Heat/Cooling", 25],
+               ["Trash", 10],
+               ["Internet", 30],
+               ["Phone", 30]]
     context = {
-        "logname": logname,
-        "monthly_bill": monthly_bill,
-        "average_utility_bill": average_utility_bill,
+        "price": 185,
+        "entries": entries
     }
-    return flask.render_template("mypage.html")
+    return flask.render_template("mypage.html", **context)
 
 
 @bill_buddies.app.route('/', methods=['POST'])
@@ -208,7 +219,7 @@ def post_zip_explore():
     return flask.redirect(target_url)
 
 
-@bill_buddies.app.route('/logout/', methods=['POST'])
+@bill_buddies.app.route('/logout/')
 def post_logout():
     """Logout users."""
     flask.session.clear()
