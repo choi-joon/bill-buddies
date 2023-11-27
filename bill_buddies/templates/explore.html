@@ -101,6 +101,26 @@
         clip: rect(0, 0, 0, 0);
         border: 0;
     }
+
+    .util-item {
+        background-color: white; /* White background for the utility item cards */
+        border: 2px solid #3C6649; /* Dark green border to match your theme */
+        border-radius: 10px; /* Rounded corners for the cards */
+        padding: 15px; /* Padding inside the cards */
+        margin-bottom: 20px; /* Margin between cards */
+    }
+    
+    .util-item h3, .util-item p {
+        margin-bottom: 10px; /* Spacing between elements inside the card */
+    }
+    
+    .util-item h3 {
+        color: #3C6649; /* Dark green for the company name */
+    }
+    
+    .util-item p {
+        color: #A8D7B7; /* Light green for the price and description */
+    }
 </style>
 </head>
 <body>
@@ -136,19 +156,21 @@
             🔍
         </button>
     </form>
-</div>
 
-<div id="map-container" >
-    <!-- The Google Map will be inserted here by the Google Maps JavaScript API -->
-    test
-    {% for val in util_list %}
-        <div>
-            <p>{{val.company}}</p>
-            <p>{{val.price}}</p>
-            <p>{{val.description}}</p>
-        </div>
-    {% endfor %} 
-</div>
+    <div id="map-container">
+        {% if util_list %}
+            {% for val in util_list %}
+                <div class="util-item">
+                    <h3>{{ val.company }}</h3>
+                    <p>{{ val.price }}</p>
+                    <p>{{ val.description }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No data available.</p>
+        {% endif %}
+    </div>
+    
 
 </body>
 </html>

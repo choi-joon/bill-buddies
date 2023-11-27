@@ -120,14 +120,37 @@ def show_aboutus():
     return flask.render_template("aboutus.html")
 
 
-@bill_buddies.app.route('/explore/')
+@bill_buddies.app.route('/explore/', methods=['GET', 'POST'])
+@bill_buddies.app.route('/', methods=['GET', 'POST'])
 def show_explore():
     if 'logname' not in flask.session:
         return flask.redirect(flask.url_for('show_signup'))
     # connection = bill_buddies.model.get_db()
-    context = {
-        #"zipcode": zipcode
-    }
+    if flask.request.method == 'POST':
+        # Capture the zipcode from the form
+        zipcode = flask.request.form['zipcode']
+
+        comp1 = {
+            "company": "DTE",
+            "price": "$70",
+            "description": "Monthly electricity and gas price"
+        }
+        comp2 = {
+            "company": "Michigan Water",
+            "price": "$33.5",
+            "description": "Monthly water price"
+        }
+        comp3 = {
+            "company": "Xfinity",
+            "price": "$45",
+            "description": "Monthly Wifi/Connection price"
+        }
+        context = {
+            "zipcode": zipcode,
+            "util_list": [comp1, comp2, comp3]
+        }
+        return flask.render_template("explore.html", **context)
+    context = {}
     return flask.render_template("explore.html", **context)
 
 
