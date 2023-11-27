@@ -93,6 +93,58 @@
     margin-bottom: 20px;
   }
   /* Add more styles as needed */
+  #inputDataBtn {
+    background: none;
+    border: none;
+    color: #3C6649; /* light green, same as nav-bar links */
+    padding: 5px 10px;
+    font-size: 1.5vh;
+    cursor: pointer; /* Changes the cursor to a pointer when hovering over the button */
+    text-decoration: none;
+}
+
+#inputDataBtn:hover {
+    background: #A8D7B7; /* dark green, same as nav-bar hover */
+    color: white;
+}
+
+
+  .popup {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    
+  }
+
+  .popup-content {
+      background-color: #A8D7B7; 
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+  }
+
+  .closeBtn {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+  }
+
+  .closeBtn:hover,
+  .closeBtn:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+  }
+
 </style>
 </head>
 <body>
@@ -145,6 +197,7 @@
             
           }
         </script>
+        <button id="inputDataBtn">Input Data</button>
       {% endblock %}
 
   </div>
@@ -198,9 +251,55 @@
             chart.draw(data, google.charts.Line.convertOptions(options));
         }
     </script>
+
   </div>
 
   <div class="card">
     Tips!
   </div>
 </div>
+
+<div id="popupForm" class="popup">
+  <div class="popup-content">
+      <span class="closeBtn">&times;</span>
+      <h3>Input this month's utility data!</h3> <!-- Add this line for the instruction text -->
+      <form id="dataForm">
+          <label for="water">Water:</label>
+          <input type="number" id="water" name="water"><br><br>
+          <label for="electricity">Electricity:</label>
+          <input type="number" id="electricity" name="electricity"><br><br>
+          <label for="heatcooling">Heat/Cooling:</label>
+          <input type="number" id="heatcooling" name="heatcooling"><br><br>
+          <label for="trash">Trash:</label>
+          <input type="number" id="trash" name="trash"><br><br>
+          <label for="internet">Internet:</label>
+          <input type="number" id="internet" name="internet"><br><br>
+          <label for="phone">Phone:</label>
+          <input type="number" id="phone" name="phone"><br><br>
+          <input type="submit" value="Submit">
+      </form>
+  </div>
+</div>
+
+
+<script>
+  var popup = document.getElementById("popupForm");
+  var btn = document.getElementById("inputDataBtn");
+  var span = document.getElementsByClassName("closeBtn")[0];
+
+  btn.onclick = function() {
+    popup.style.display = "block";
+  }
+
+  span.onclick = function() {
+    popup.style.display = "none";
+  }
+
+  window.onclick = function(event) {
+    if (event.target == popup) {
+      popup.style.display = "none";
+    }
+  }
+</script>
+
+</body>
