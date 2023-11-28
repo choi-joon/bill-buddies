@@ -108,6 +108,9 @@
         border-radius: 10px; /* Rounded corners for the cards */
         padding: 15px; /* Padding inside the cards */
         margin-bottom: 20px; /* Margin between cards */
+        width: 50%;
+        margin: auto;
+        margin-top: 10px;
     }
     
     .util-item h3, .util-item p {
@@ -120,6 +123,13 @@
     
     .util-item p {
         color: #A8D7B7; /* Light green for the price and description */
+    }
+
+    .map-container {
+        justify-content: center;
+    }
+    .zip {
+        margin-top: 10px;
     }
 </style>
 </head>
@@ -156,7 +166,9 @@
             🔍
         </button>
     </form>
-
+    <div>
+        <p id="zip">Zipcode: {{zipcode}}</p>
+    </div>
     <div id="map-container">
         {% if util_list %}
             {% for val in util_list %}
@@ -169,6 +181,7 @@
         {% else %}
             <p>No data available.</p>
         {% endif %}
+    
     </div>
     
 

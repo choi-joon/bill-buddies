@@ -92,22 +92,26 @@
     background-color: #ddd;
     margin-bottom: 20px;
   }
+  .but {
+    align-items: center;
+  }
   /* Add more styles as needed */
   #inputDataBtn {
-    background: none;
+    margin: auto;
+    display: block;
+    width: 40%;
     border: none;
-    color: #3C6649; /* light green, same as nav-bar links */
-    padding: 5px 10px;
-    font-size: 1.5vh;
-    cursor: pointer; /* Changes the cursor to a pointer when hovering over the button */
-    text-decoration: none;
-}
-
-#inputDataBtn:hover {
-    background: #A8D7B7; /* dark green, same as nav-bar hover */
-    color: white;
-}
-
+    background-color: #A8D7B7;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  #inputDataBtn:hover {
+      background:#3C6649; /* dark green, same as nav-bar hover */
+      color: white;
+  }
 
   .popup {
     display: none;
@@ -187,7 +191,7 @@
             
             // Set Options
             const options = {
-              title: "This Month's Utility Bill",
+              title: "",
               is3D: true
             };
             
@@ -197,7 +201,9 @@
             
           }
         </script>
-        <button id="inputDataBtn">Input Data</button>
+        <div id="but">
+          <button id="inputDataBtn">Input Data</button>
+        </div>
       {% endblock %}
 
   </div>
@@ -255,7 +261,12 @@
   </div>
 
   <div class="card">
-    Tips!
+    Tips:
+    {% for tip in tips %}
+      <div class="tip">
+        {{tip}}
+      </div>
+    {% endfor %}
   </div>
 </div>
 

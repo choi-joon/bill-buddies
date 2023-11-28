@@ -7,6 +7,7 @@ import flask
 import requests
 import datetime
 import bill_buddies
+import random
 
 NREL_API_KEY = 'ChvLonWumEHOLKF7Q5gCwyoVq6giJ20ipk3RdeZm'
 UTILITY_RATES_ENDPOINT = 'https://developer.nrel.gov/api/utility_rates/v3.json'
@@ -128,28 +129,60 @@ def show_explore():
     # connection = bill_buddies.model.get_db()
     if flask.request.method == 'POST':
         # Capture the zipcode from the form
-        zipcode = flask.request.form['zipcode']
-
-        comp1 = {
-            "company": "DTE",
-            "price": "$70",
-            "description": "Monthly electricity and gas price"
-        }
-        comp2 = {
-            "company": "Michigan Water",
-            "price": "$33.5",
-            "description": "Monthly water price"
-        }
-        comp3 = {
-            "company": "Xfinity",
-            "price": "$45",
-            "description": "Monthly Wifi/Connection price"
-        }
-        context = {
-            "zipcode": zipcode,
-            "util_list": [comp1, comp2, comp3]
-        }
-        return flask.render_template("explore.html", **context)
+        zipcode = str(flask.request.form['zipcode'])
+        if zipcode == "48104":
+            comp1 = {
+                "company": "DTE",
+                "price": "$80",
+                "description": "Monthly gas/electric price"
+            }
+            comp2 = {
+                "company": "Michigan Water",
+                "price": "$33.50",
+                "description": "Monthly water price"
+            }
+            comp3 = {
+                "company": "Xfinity",
+                "price": "$45",
+                "description": "Monthly wifi/connection price"
+            }
+            comp4 = {
+                "company": "Consumers Energy",
+                "price": "$185",
+                "description": "Monthly gas/electric price"
+            }
+            comp5 = {
+                "company": "Upper Michigan Water Company",
+                "price": "$60",
+                "description": "Monthly water price"
+            }
+            context = {
+                "zipcode": zipcode,
+                "util_list": [comp1, comp4, comp2, comp5, comp3]
+            }
+            return flask.render_template("explore.html", **context)
+        else:
+            # 1210 South Indiana Avenue, Chicago, IL 60605
+            comp1 = {
+                "company": "ComEd",
+                "price": "$158",
+                "description": "Monthly gas/electric price"
+            }
+            comp2 = {
+                "company": "Department of Water Management",
+                "price": "$25",
+                "description": "Monthly water price"
+            }
+            comp3 = {
+                "company": "AT&T",
+                "price": "$35",
+                "description": "Monthly Wifi/Connection price"
+            }
+            context = {
+                "zipcode": zipcode,
+                "util_list": [comp1, comp2, comp3]
+            }
+            return flask.render_template("explore.html", **context)
     context = {}
     return flask.render_template("explore.html", **context)
 
@@ -215,9 +248,38 @@ def show_mypage():
                ["Trash", 10],
                ["Internet", 30],
                ["Phone", 30]]
+    
+    tips_water = [
+        "Fix Leaks Promptly: A dripping faucet or leaking toilet can waste a significant amount of water over time.",
+        "Install Water-Efficient Fixtures: Low-flow showerheads, faucets, and dual-flush toilets can reduce water consumption significantly.",
+        "Shorten Showers: Taking shorter showers can save a substantial amount of water. Even reducing your shower time by a minute or two can make a difference.",
+        "Turn Off the Tap: Don’t leave the water running while brushing your teeth or shaving.",
+        "Use Dishwashers and Washing Machines Wisely: Only run them when they are full. Choose the eco-setting if available.",
+        "Water Plants Wisely: Water your garden during the cooler parts of the day to reduce evaporation. Use drought-resistant plants.",
+        "Reuse Greywater: Consider systems that allow you to reuse water from sinks and showers for toilets or gardening.",
+    ]
+    tips_electricity =[
+        "Switch to LED Bulbs: LED light bulbs use up to 75% less energy than traditional incandescent bulbs and last much longer.",
+        "Unplug Electronics: Devices still consume power when they're off but plugged in. Unplug them or use a power strip to turn off multiple devices at once.",
+        "Use Smart Thermostats: These can optimize heating and cooling, reducing energy use.",
+        "Air Dry Clothes and Dishes: Avoid using the dryer for clothes and the heat-dry setting on your dishwasher.",
+        "Maintain Appliances: Regular maintenance ensures that appliances like refrigerators and air conditioners run efficiently.",
+        "Seal Windows and Doors: Prevent air leaks by sealing drafts, which can reduce heating and cooling costs.",
+        "Use Energy-Efficient Appliances: When replacing appliances, look for those with a high energy-efficiency rating.",
+        "Practice Efficient Cooking: Use lids on pots to cook food faster and consider using a microwave or toaster oven for smaller meals."
+    ]
+    tips_trash = [
+        "Reduce, Reuse, Recycle: This is the golden rule. Always think about whether you can reduce your use of an item, reuse something instead of throwing it away, or recycle it.",
+        "Composting: Start composting organic waste like food scraps and yard waste. This can significantly reduce the amount of garbage you produce and provide you with excellent soil for gardening.",
+        "Buy in Bulk: Purchasing items in bulk can reduce packaging waste. Be sure to bring your own reusable containers or bags.",
+        "Avoid Single-Use Items: Opt for reusable items instead of disposable ones. For example, use cloth napkins, rechargeable batteries, and refillable water bottles.",
+        "Recycle Properly: Make sure you are aware of your local recycling rules and recycle as much as possible. This includes paper, cardboard, plastic, glass, and metal.",
+        "Donate or Sell Unused Items: Instead of throwing away items you no longer need, consider donating them to charity or selling them. This can include clothes, furniture, electronics, and more.",
+    ]
     context = {
         "price": 185,
-        "entries": entries
+        "entries": entries,
+        "tips": [tips_water[random.randint(0,6)], tips_electricity[random.randint(0,7)], tips_trash[random.randint(0,5)]]
     }
     return flask.render_template("mypage.html", **context)
 
