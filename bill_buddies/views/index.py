@@ -83,7 +83,6 @@ def get_sorted_utility_rates(zipcode):
     response = requests.get(UTILITY_RATES_ENDPOINT, params=params)
     if response.status_code == 200:
         data = response.json()
-        print(data)
         outputs = data['outputs']
         utility_info_list = [
             {
