@@ -71,7 +71,6 @@ def process_zipcode():
     return flask.render_template('explore.html', **context)
 
 def get_sorted_utility_rates(zipcode):
-    print("FUNCT@")
     lat, lon = get_lat_lon_from_zipcode(zipcode)
     if lat is None or lon is None:
         return flask.jsonify({'error': 'Invalid ZIP code'}), 400
@@ -84,6 +83,7 @@ def get_sorted_utility_rates(zipcode):
     response = requests.get(UTILITY_RATES_ENDPOINT, params=params)
     if response.status_code == 200:
         data = response.json()
+        print(data)
         outputs = data['outputs']
         utility_info_list = [
             {
