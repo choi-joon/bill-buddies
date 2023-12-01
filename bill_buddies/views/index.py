@@ -55,9 +55,23 @@ def get_lat_lon_from_zipcode(zipcode):
     else:
         return None, None
 
+@bill_buddies.app.route('/explore/', methods=['POST'])
+def process_zipcode():
+    zipcode = flask.request.form['zipcode']
+    # Call the function to process the ZIP code and get data
+    sorted_utility_rates = get_sorted_utility_rates(zipcode)
+    sorted_utility_rates = {frozenset(item.items()) : 
+            item for item in sorted_utility_rates}.values()
+    context = {
+        "zipcode": zipcode,
+        "util_list": sorted_utility_rates
+    }
+    print(sorted_utility_rates)
+    # Render the explore.html with the sorted utility rates
+    return flask.render_template('explore.html', **context)
 
-@bill_buddies.app.route('/sorted-utility-rates/<zipcode>')
 def get_sorted_utility_rates(zipcode):
+    print("FUNCT@")
     lat, lon = get_lat_lon_from_zipcode(zipcode)
     if lat is None or lon is None:
         return flask.jsonify({'error': 'Invalid ZIP code'}), 400
@@ -79,6 +93,7 @@ def get_sorted_utility_rates(zipcode):
             for name in outputs['utility_name'].split('|')
         ]
         sorted_utility_rates = sorted(utility_info_list, key=lambda x: x['rate'])
+        return sorted_utility_rates
         return flask.jsonify({'sorted_utility_rates': sorted_utility_rates})
     else:
         return flask.jsonify({'error': 'Failed to fetch data'}), response.status_code

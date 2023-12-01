@@ -157,9 +157,7 @@
 
 <div class="search-container">
     <h1>Want to find your local utility information?</h1>
-    <form action="?target={{url_for('show_explore')}}"
-            method="post"
-            enctype="multipart/form-data">
+    <form action="{{url_for('process_zipcode')}}" method="post">
         <input type="text" name="zipcode" class = "search-box" name="zipcode" pattern="\d{5}" placeholder="Enter your zipcode" title="Please enter a 5-digit zip code" required>
         <button type="submit" class="search-button">
             <span class="visually-hidden">Search</span>
@@ -173,9 +171,9 @@
         {% if util_list %}
             {% for val in util_list %}
                 <div class="util-item">
-                    <h3>{{ val.company }}</h3>
-                    <p>{{ val.price }}</p>
-                    <p>{{ val.description }}</p>
+                    <h3>{{ val.utility_name }}</h3>
+                    <p>${{ val.rate }} per hour</p>
+                    <!-- <p>{{ val.description }}</p> -->
                 </div>
             {% endfor %}
         {% else %}
