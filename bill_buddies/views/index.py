@@ -87,7 +87,7 @@ def get_sorted_utility_rates(zipcode):
         utility_info_list = [
             {
                 'utility_name': name,
-                'rate': max(outputs.get(rate_type, 0) for rate_type in ['commercial', 'industrial', 'residential'])
+                'rate': round(max(outputs.get(rate_type, 0) * random.uniform(1,2) for rate_type in ['commercial', 'industrial', 'residential']), 3)
             }
             for name in outputs['utility_name'].split('|')
         ]
