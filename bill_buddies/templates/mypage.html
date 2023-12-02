@@ -175,18 +175,23 @@
       <script>
         google.charts.load('current',{packages:['corechart']});
         google.charts.setOnLoadCallback(drawChart);
-        
         // Your Function
         function drawChart() {
             // Set Data
-            const data = google.visualization.arrayToDataTable(
+            const w = {{ water }}
+            const e = {{ electricity }}
+            const h = {{ hc }}
+            const t = {{ trash }}
+            const i = {{ internet }}
+            const p = {{ phone }}
+            var data = google.visualization.arrayToDataTable(
               [["Bill", "Price"],
-              ["Water", 30],
-              ["Electricity", 45],
-              ["Heat/Cooling", 25],
-              ["Trash", 15],
-              ["Internet", 20],
-              ["Phone", 30]]
+              ["Water", w],
+              ["Electricity", e],
+              ["Heat/Cooling", h],
+              ["Trash", t],
+              ["Internet", i],
+              ["Phone", p]]
             );
             
             // Set Options
@@ -274,7 +279,7 @@
   <div class="popup-content">
       <span class="closeBtn">&times;</span>
       <h3>Input this month's utility data!</h3> <!-- Add this line for the instruction text -->
-      <form id="dataForm">
+      <form id="dataForm" action="{{url_for('show_mypage')}}" method="post">>
           <label for="water">Water:</label>
           <input type="number" id="water" name="water"><br><br>
           <label for="electricity">Electricity:</label>

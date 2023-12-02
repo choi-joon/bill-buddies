@@ -215,7 +215,7 @@ def show_signup():
     return flask.render_template("signup.html")
 
 
-@bill_buddies.app.route('/mypage/')
+@bill_buddies.app.route('/mypage/', methods=['GET', 'POST'])
 def show_mypage():
     """Display mypage route."""
     # logged in
@@ -255,13 +255,6 @@ def show_mypage():
     #     "monthly_bill": monthly_bill,
     #     "average_utility_bill": average_utility_bill,
     # }
-    entries = [["Bill", "Price"],
-               ["Water", 30],
-               ["Electricy", 45],
-               ["Heat/Cooling", 25],
-               ["Trash", 10],
-               ["Internet", 30],
-               ["Phone", 30]]
     
     tips_water = [
         "Fix Leaks Promptly: A dripping faucet or leaking toilet can waste a significant amount of water over time.",
@@ -290,11 +283,35 @@ def show_mypage():
         "Recycle Properly: Make sure you are aware of your local recycling rules and recycle as much as possible. This includes paper, cardboard, plastic, glass, and metal.",
         "Donate or Sell Unused Items: Instead of throwing away items you no longer need, consider donating them to charity or selling them. This can include clothes, furniture, electronics, and more.",
     ]
-    context = {
-        "price": 185,
-        "entries": entries,
-        "tips": [tips_water[random.randint(0,6)], tips_electricity[random.randint(0,7)], tips_trash[random.randint(0,5)]]
-    }
+    if flask.request.method == 'POST':
+        water = int(flask.request.form.get('water'))
+        elec = int(flask.request.form.get('electricity'))
+        hc = int(flask.request.form.get('heatcooling'))
+        trash = int(flask.request.form.get('trash'))
+        internet = int(flask.request.form.get('internet'))
+        phone = int(flask.request.form.get('phone'))
+        sum = water + elec + hc + trash + internet + phone
+        context = {
+            "price": sum,
+            "water": water,
+            "electricity": elec,
+            "hc": hc,
+            "trash": trash,
+            "internet": internet,
+            "phone": phone,
+            "tips": [tips_water[random.randint(0,6)], tips_electricity[random.randint(0,7)], tips_trash[random.randint(0,5)]]
+        }
+    else:
+        context = {
+            "price": 185,
+            "water": 30,
+            "electricity": 45,
+            "hc": 25,
+            "trash": 10,
+            "internet": 30,
+            "phone": 30,
+            "tips": [tips_water[random.randint(0,6)], tips_electricity[random.randint(0,7)], tips_trash[random.randint(0,5)]]
+        }
     return flask.render_template("mypage.html", **context)
 
 
