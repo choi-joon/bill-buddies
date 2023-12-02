@@ -100,6 +100,39 @@
     text-align: center;
     margin-top: 10px;
   }
+  /* Add this CSS for the error message */
+  .error {
+      color: #D9534F; /* Bootstrap's red color for danger alerts */
+      background-color: #F2DEDE; /* Bootstrap's background color for danger alerts */
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #D9534F; /* Bootstrap's border color for danger alerts */
+      border-radius: 4px; /* Add rounded corners */
+      text-align: center;
+  }
+
+  /* Modify the form input styles to provide consistent spacing */
+  .form-input {
+      margin-bottom: 20px;
+  }
+
+  .form-input input {
+      width: 100%;
+      padding: 15px;
+      margin: 5px 0;
+      border: 1px solid #ddd;
+      box-sizing: border-box;
+  }
+
+  /* Add some padding to the form container */
+  .container {
+      width: 300px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 30px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
 </style>
 </head>
 <body>
@@ -127,11 +160,12 @@
       <div>
         <button type="submit" class="btn">LOG IN</button>
       </div>
+      {% if error %}
+      <p class=error><strong>Error:</strong> {{ error }}
+      {% endif %}
   </form>
   <div class="footer">
     <p>Don't have an account? <br><a href="{{ url_for('show_signup') }}">Click here to sign up</a></p>
   </div>
 </div>
 
-</body>
-</html>

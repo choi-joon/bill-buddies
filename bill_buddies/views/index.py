@@ -342,7 +342,7 @@ def post_logout():
     return flask.redirect(flask.url_for('show_login'))
 
 
-@bill_buddies.app.route('/login/', methods=['POST'])
+@bill_buddies.app.route('/login/', methods=['GET', 'POST'])
 def post_login():
     """Login user, helper for post account."""
     connection = bill_buddies.model.get_db()
@@ -361,7 +361,8 @@ def post_login():
     # case for username and password authentication fail
     # user does not exist in db
     if username not in [user['username'] for user in users]:
-        flask.abort(403)
+        error = 'Invalid Credentials'
+        return flask.render_template('login.html', error=error)
     # user exists
     else:
         for user in users:
@@ -372,7 +373,8 @@ def post_login():
                     password
                     )
                 if user['password'] != password_hashed:
-                    flask.abort(403)
+                    error = 'Invalid Credentials'
+                    return flask.render_template('login.html', error=error)
 
     # compare hashed password and user input
     # set session
