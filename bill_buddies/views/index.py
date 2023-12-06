@@ -84,14 +84,22 @@ def get_sorted_utility_rates(zipcode):
     if response.status_code == 200:
         data = response.json()
         outputs = data['outputs']
+
         utility_info_list = [
             {
-                'utility_name': name,
-                'rate': round(max(outputs.get(rate_type, 0) * random.uniform(1,2) for rate_type in ['commercial', 'industrial', 'residential']), 3)
-            }
-            for name in outputs['utility_name'].split('|')
-        ]
-        sorted_utility_rates = sorted(utility_info_list, key=lambda x: x['rate'])
+                'utility_name': name, 
+                'rate': round(max(outputs.get(rate_type, 0) * random.uniform(1, 2) for rate_type in ['commercial', 'industrial', 'residential']), 3)
+            } 
+            for name in outputs['utility_name'].split('|')   
+        ]  
+        seen_names = set()
+        filtered_utility_info_list = []
+        for utility_info in utility_info_list:
+            name = utility_info['utility_name']
+            if name not in seen_names:
+                seen_names.add(name)
+                filtered_utility_info_list.append(utility_info)
+        sorted_utility_rates = sorted(filtered_utility_info_list, key=lambda x: x['rate'])
         return sorted_utility_rates
         return flask.jsonify({'sorted_utility_rates': sorted_utility_rates})
     else:
