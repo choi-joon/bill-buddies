@@ -215,7 +215,7 @@
 
   <div class="card">
     <div>Average Utility Bill</div>
-    <div class="utility-bill">$202.14</div>
+    <div class="utility-bill">${{ '%.2f'|format(price * 1.4 + 10) }}</div>
     <div id="linechart_material" style="width: 900px; height: 500px"></div>
     <script>
         google.charts.load('current', {'packages':['line']});
@@ -223,7 +223,7 @@
 
         function drawChart() {
             var data = new google.visualization.DataTable();
-            data.addColumn('number', 'Day of Month');
+            data.addColumn('number', 'Month');
             data.addColumn('number', 'Water');
             data.addColumn('number', 'Electricity');
             data.addColumn('number', 'Heat/Cooling');
@@ -243,9 +243,7 @@
                 [9,  16.9, 42.9, 14.8, 12.8, 30.9, 11.6],
                 [10, 12.8, 30.9, 11.6, 12.8, 30.9, 11.6],
                 [11,  5.3,  7.9,  4.7, 12.8, 30.9, 11.6],
-                [12,  6.6,  8.4,  5.2, 12.8, 30.9, 11.6],
-                [13,  4.8,  6.3,  3.6, 12.8, 30.9, 11.6],
-                [14,  4.2,  6.2,  3.4, 12.8, 30.9, 11.6]
+                [12,  40.0,  50.0,  15.0, 20.0, 30.0, 20.0],
             ]);
 
             var options = {
